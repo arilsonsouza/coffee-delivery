@@ -5,10 +5,8 @@ import { LayoutContainer } from './styles'
 export function DefaultLayout() {
   return (
     <LayoutContainer>
-      <div className="container">
-        <Header />
-        <Outlet />
-      </div>
+      <Header />
+      <Outlet />
     </LayoutContainer>
   )
 }
