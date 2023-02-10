@@ -35,9 +35,9 @@ export const IntroSubtitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-weight: 400;
   font-size: 1.25rem;
-  line-height: 130%;
   font-stretch: 100;
   margin-top: 1rem;
+  line-height: 130%;
 `
 
 export const BenefitsContainer = styled.div`
