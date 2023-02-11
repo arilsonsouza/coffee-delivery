@@ -21,5 +21,8 @@ export const QuantityInputContainer = styled.div`
   svg {
     cursor: pointer;
     color: ${({ theme }) => theme.purple};
+    &:hover {
+      color: ${({ theme }) => theme['purple-dark']};
+    }
   }
 `

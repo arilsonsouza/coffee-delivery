@@ -89,4 +89,8 @@ export const AddToCartButton = styled.button`
   background-color: ${({ theme }) => theme['purple-dark']};
   border-radius: 6px;
   border: none;
+  transition: all 0.1s;
+  &:hover {
+    opacity: 0.7;
+  }
 `
