@@ -95,3 +95,20 @@ export const CartItemContainer = styled.div`
     padding-top: 1.5rem;
   }
 `
+
+const BaseContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2.5rem;
+
+  background-color: ${({ theme }) => theme['base-card']};
+  border-radius: 6px;
+`
+
+export const AddressContainer = styled(BaseContainer)``
+
+export const PaymentContainer = styled(BaseContainer)`
+  margin-top: 0.75rem;
+`
