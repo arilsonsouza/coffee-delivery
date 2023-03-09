@@ -4,8 +4,12 @@ import { MapPin, ShoppingCart } from 'phosphor-react'
 import { HeaderAction, HeaderActionContainer, HeaderContainer } from './styles'
 
 import logo from '../../assets/images/logo.svg'
+import { useContext } from 'react'
+import { CartContext } from '../../context/CartContext'
 
 export function Header() {
+  const { totalItems } = useContext(CartContext)
+
   return (
     <div className="container">
       <HeaderContainer>
@@ -19,7 +23,7 @@ export function Header() {
           </HeaderAction>
           <NavLink to="/checkout">
             <HeaderAction variant="yellow">
-              <span>3</span>
+              {totalItems > 0 && <span>{totalItems}</span>}
               <ShoppingCart size={20} weight="fill" />
             </HeaderAction>
           </NavLink>
