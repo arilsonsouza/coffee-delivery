@@ -25,13 +25,13 @@ export function Success() {
 
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   if (!state) {
-  //     navigate('/')
-  //   }
-  // }, [state])
+  useEffect(() => {
+    if (!state) {
+      navigate('/')
+    }
+  }, [state])
 
-  // if (!state) return <></>
+  if (!state) return <></>
   const paymentMethod = paymentMethods.find(
     (item) => (item.value = state.paymentMethod),
   )
