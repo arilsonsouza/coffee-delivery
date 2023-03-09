@@ -107,8 +107,42 @@ const BaseContainer = styled.div`
   border-radius: 6px;
 `
 
-export const AddressContainer = styled(BaseContainer)``
+export const AddressContainer = styled(BaseContainer)`
+  .address-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 12.5rem 17.25rem 3.75rem;
+    column-gap: 0.75rem;
+    row-gap: 1rem;
+    grid-auto-flow: dense;
+
+    .cep {
+      grid-column: span 3;
+      max-width: 12.5rem;
+    }
+
+    .street {
+      grid-column: span 3;
+    }
+
+    .complement {
+      grid-column: span 2;
+    }
+  }
+`
 
 export const PaymentContainer = styled(BaseContainer)`
   margin-top: 0.75rem;
+`
+export const PaymentMethodsContainer = styled.div`
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  span {
+    margin-left: 0.75rem;
+  }
 `
