@@ -1,6 +1,11 @@
+import { useContext, useState } from 'react'
+import { toast } from 'react-toastify'
 import { ShoppingCartSimple } from 'phosphor-react'
 import { QuantityInput } from '../../../../components/QuantityInput'
+import { CartContext } from '../../../../context/CartContext'
 import { formatMoney } from '../../../../utils/money'
+import { CartItem } from '../../../../reducers/cart/reducers'
+
 import {
   AddToCartButton,
   CardActionsContainer,
@@ -25,6 +30,27 @@ interface CoffeeCardProps {
 }
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
+  const [quantity, setQuantity] = useState(1)
+  const { addItem } = useContext(CartContext)
+
+  function handleQuantityChange(updatedQuantity: number) {
+    setQuantity(updatedQuantity)
+  }
+
+  function addItemToCart() {
+    const coffeeItem: CartItem = { ...coffee, quantity }
+    addItem(coffeeItem)
+    toast(`${coffeeItem.name} foi adicionado ao carrinho!`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      progress: undefined,
+      theme: 'light',
+    })
+  }
+
   return (
     <CardContainer>
       <img src={`/images/coffees/${coffee.photo}`} alt={coffee.name} />
@@ -42,8 +68,11 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
           <span>R$</span> <strong>{formatMoney(coffee.price)}</strong>
         </CoffeeAmountContainer>
         <CardActionsContainer>
-          <QuantityInput />
-          <AddToCartButton>
+          <QuantityInput
+            quantity={quantity}
+            onQuantityChange={handleQuantityChange}
+          />
+          <AddToCartButton onClick={addItemToCart}>
             <ShoppingCartSimple size={22} />
           </AddToCartButton>
         </CardActionsContainer>

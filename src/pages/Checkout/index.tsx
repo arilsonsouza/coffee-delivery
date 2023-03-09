@@ -26,6 +26,10 @@ import {
 } from './styles'
 import { PaymentMethodInput } from './components/PaymentMethodInput'
 import { ErrorTag } from '../../components/ErrorTag'
+import { useContext, useEffect } from 'react'
+import { CartContext } from '../../context/CartContext'
+import { formatMoney } from '../../utils/money'
+import { useNavigate } from 'react-router-dom'
 
 interface ErrorsType {
   errors: {
@@ -76,11 +80,22 @@ const orderSchema = zod.object({
   }),
 })
 
-type OrderDate = zod.infer<typeof orderSchema>
+export type OrderData = zod.infer<typeof orderSchema>
+
+const DELIVERY = 3.5
 
 export function Checkout() {
   const theme = useTheme()
-  const { register, handleSubmit, formState } = useForm<OrderDate>({
+  const navigate = useNavigate()
+  const { cartItems, totalAmount, clearCart } = useContext(CartContext)
+
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      navigate('/', { replace: true })
+    }
+  }, [cartItems, navigate])
+
+  const { register, handleSubmit, formState } = useForm<OrderData>({
     resolver: zodResolver(orderSchema),
     defaultValues: {
       paymentMethod: undefined,
@@ -91,7 +106,10 @@ export function Checkout() {
 
   const paymentMethodError = errors?.paymentMethod?.message as unknown as string
 
-  const onSubmit = (data: OrderDate) => console.log(data)
+  const onSubmit = (data: OrderData) => {
+    navigate('/checkout-success', { state: data })
+    clearCart()
+  }
 
   return (
     <form className="container" onSubmit={handleSubmit(onSubmit)}>
@@ -185,23 +203,24 @@ export function Checkout() {
           <SectionHeader>Cafés selecionados</SectionHeader>
           <CoffeesContainer>
             <CheckoutPriceInfo>
-              <CartItemContainer>
-                <CoffeeCard />
-              </CartItemContainer>
-              <CartItemContainer>
-                <CoffeeCard />
-              </CartItemContainer>
+              {cartItems.map((coffeeItem) => (
+                <CartItemContainer key={coffeeItem.id}>
+                  <CoffeeCard coffeeItem={coffeeItem} />
+                </CartItemContainer>
+              ))}
 
               <SummaryContainer>
                 <div>
                   <span className="label">Total de itens</span>
-                  <span>R$ 29,70</span>
+                  <span>R$ {formatMoney(totalAmount)}</span>
                 </div>
                 <div>
-                  <span className="label">Entrega</span> <span>R$ 3,50</span>
+                  <span className="label">Entrega</span>{' '}
+                  <span>R$ {formatMoney(DELIVERY)}</span>
                 </div>
                 <div>
-                  <strong>Total</strong> <strong>R$ 33,20</strong>
+                  <strong>Total</strong>{' '}
+                  <strong>R$ {formatMoney(totalAmount + DELIVERY)}</strong>
                 </div>
               </SummaryContainer>
             </CheckoutPriceInfo>
